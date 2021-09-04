@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_corner_radius">3dp</dimen>
+    <dimen name="item_content_padding">10dp</dimen>
+    <dimen name="item_elevation">1dp</dimen>
+    <dimen name="item_match_constraint">0dp</dimen>
+    <dimen name="item_margin_bottom">1dp</dimen>
+    <dimen name="item_margin_end">1dp</dimen>
+    <dimen name="item_image_width">60dp</dimen>
+    <dimen name="item_image_height">60dp</dimen>
+    <dimen name="item_dimen_padding_start">5dp</dimen>
+    <dimen name="item_dimen_margin_top">5dp</dimen>
+</resources>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="trendingListAdapter"
+            type="reprator.gojek.trendingList.TrendingListAdapter" />
+
+        <variable
+            name="trendingViewModal"
+            type="reprator.gojek.trendingList.TrendingListViewModal" />
+    </data>
+
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".TrendingList">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/trendingListToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorOnPrimary"
+                    android:minHeight="?attr/actionBarSize"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:contentInsetStartWithNavigation="0dp">
+
+                    <TextView
+                        android:id="@+id/trending_toolbar_title"
+                        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/trending_title" />
+
+                    <ImageView
+                        android:id="@+id/trending_toolbar_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:paddingEnd="10dp"
+                        android:src="@drawable/ic_more" />
+
+                </com.google.android.material.appbar.MaterialToolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/trendingListSwipe"
+                goneUnless="@{trendingViewModal.trendingList.size() > 0}"
+                snackBar="@{trendingViewModal.swipeErrorMsg.consume()}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:onRefreshListener="@{() -> trendingViewModal.onRefresh()}"
+                app:refreshing="@{trendingViewModal.swipeLoading}">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/trendingListRecyclerView"
+                    recyclerListAdapter="@{trendingListAdapter}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/row_trending" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/factList_loaderErrorHandler"
+            clickListener="@{() -> trendingViewModal.retryTrendingList()}"
+            exceptionError="@{trendingViewModal.errorMsg}"
+            isEmpty="@{TextUtils.isEmpty(trendingViewModal.errorMsg) &amp;&amp; !trendingViewModal.isLoading &amp;&amp; trendingViewModal.trendingList.empty }"
+            isError="@{TextUtils.isEmpty(trendingViewModal.errorMsg) ? false : true}"
+            isLoading="@{trendingViewModal.isLoading}"
+            layout="@layout/layout_loader_error_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</layout>
